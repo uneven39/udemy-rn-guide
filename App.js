@@ -1,19 +1,41 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    FlatList,
+    View,
+} from 'react-native';
+import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+    const [goals, setGoals] = useState([]);
+
+    const addGoalHandler = (enteredGoal) => {
+        setGoals(currentGoals => [
+            ...currentGoals,
+            { id: Math.random().toString(), value: enteredGoal },
+        ]);
+    };
+
+    return (
+        <View style={styles.screen}>
+            <GoalInput
+                onSubmit={addGoalHandler}
+            />
+            <FlatList
+                data={goals}
+                keyExtractor={(item) => item.id}
+                renderItem={goalData => (
+                    <GoalItem text={goalData.item.value} />
+                )}
+            >
+            </FlatList>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    screen: {
+        padding: 50
+    }
 });
