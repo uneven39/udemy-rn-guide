@@ -1,21 +1,36 @@
 import React, {useState} from 'react';
 import {
     StyleSheet,
+    Modal,
     Button,
     TextInput,
     View,
 } from 'react-native';
 
 const styles = StyleSheet.create({
+    modal: {
+
+    },
     inputContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
     input: {
-        width: '50%',
+        width: '80%',
+        marginBottom: 10,
         borderBottomColor: 'black',
         borderBottomWidth: 1,
+        fontSize: 24,
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '60%',
+    },
+    button: {
+        width: '40%',
     }
 });
 
@@ -26,19 +41,46 @@ const GoalInput = props => {
         setEnteredGoal(text);
     };
 
+    const submitInputHandler = () => {
+        props.onSubmit(enteredGoal);
+        setEnteredGoal('');
+    };
+
     return (
-        <View style={styles.inputContainer}>
-            <TextInput
-                placeholder="text"
-                style={styles.input}
-                onChangeText={goalInputHandler}
-                value={enteredGoal}
-            />
-            <Button
-                title="add"
-                onPress={props.onSubmit.bind(this, enteredGoal)}
-            />
-        </View>
+        <Modal
+            visible={props.show}
+            animationType="slide"
+        >
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="text"
+                    style={styles.input}
+                    onChangeText={goalInputHandler}
+                    value={enteredGoal}
+                />
+                <View
+                    style={styles.buttonsContainer}
+                >
+                    <View
+                        style={styles.button}
+                    >
+                        <Button
+                            title="cancel"
+                            color="orange"
+                            onPress={props.onCancel}
+                        />
+                    </View>
+                    <View
+                        style={styles.button}
+                    >
+                        <Button
+                            title="add"
+                            onPress={submitInputHandler}
+                        />
+                    </View>
+                </View>
+            </View>
+        </Modal>
     );
 };
 

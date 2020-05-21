@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
+    TouchableOpacity,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -14,9 +15,14 @@ const styles = StyleSheet.create({
 
 const GoalItem = props => {
     return (
-        <View style={styles}>
-            <Text>{props.text}</Text>
-        </View>
+        <TouchableOpacity
+            onPress={props.onDelete.bind(this, props.id)}
+            activeOpacity={0.8}
+        >
+            <View style={styles}>
+                <Text>{props.text}</Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 
